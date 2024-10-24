@@ -35,3 +35,9 @@ app.get("/", async (req: Request, res: Response) => {
   const result = db_response.rows[0].message;
   res.send("Express + TypeScript Server is great! " + result);
 });
+
+app.get("/test", async (req: Request, res: Response) => {
+  res.send("I'm alive");
+});
+
+startServer();
