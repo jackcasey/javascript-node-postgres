@@ -1,4 +1,5 @@
 import { Options, PostgreSqlDriver } from '@mikro-orm/postgresql';
+import { TsMorphMetadataProvider } from '@mikro-orm/reflection';
 
 const config: Options = {
   // for simplicity, we use the SQLite database, as it's available pretty much everywhere
@@ -12,6 +13,6 @@ const config: Options = {
   // metadataProvider: TsMorphMetadataProvider,
   // enable debug mode to log SQL queries and discovery information
   debug: true,
-};
+  metadataProvider: TsMorphMetadataProvider};
 
 export default config;
