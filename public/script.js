@@ -1,5 +1,23 @@
-function ViewModel() {
+Storage.prototype.setObject = function(key, value) {
+  this.setItem(key, JSON.stringify(value));
+}
 
+Storage.prototype.getObject = function(key) {
+  var value = this.getItem(key);
+  return value && JSON.parse(value);
+}
+
+function setDay(dateString, shareString) {
+  const days = localStorage.getObject("days");
+  days[dateString] = shareString;
+  localStorage.setObject("days", days);
+}
+
+function getNumDays() {
+  return Object.keys(localStorage.getObject("days")).length;
+}
+
+function ViewModel() {
   var self = this;
 
   // check for data management URL param
@@ -74,7 +92,7 @@ function ViewModel() {
   self.cat = ko.observable();
 
   // 365th day?
-  self.daysPlayed = ko.observable(localStorage.length + (self.won() ? 0 : 1));
+  self.daysPlayed = ko.observable(getNumDays() + (self.won() ? 0 : 1));
   self.yearPlayed = ko.observable(self.daysPlayed() == BIRTHDAY_COUNT);
 
   // shuffle foods order in palette
@@ -106,7 +124,7 @@ function ViewModel() {
   self.numDays = ko.pureComputed(function () {
     if (self.ended())
       // this just forces ko to compute numDays by adding an observable
-      return localStorage.length;
+      return getNumDays();
   }, self);
 
   // Set up a new level
@@ -150,7 +168,7 @@ function ViewModel() {
     self.cat(Math.floor(self.rng() * NUM_CATS));
 
     // don't show if player has won today's puzzle
-    if (localStorage.getItem(self.dateString()) != null) {
+    if (localStorage.getObject("days")[self.dateString()] != null) {
       self.won(true);
       self.ended(true);
     }
@@ -261,45 +279,48 @@ function ViewModel() {
 
       shareString += "Solved in " + self.timeString() + "\n";
 
-      if (localStorage.length == 0) shareString += "1 day of happy cats!";
-      else shareString += localStorage.length + 1 + " days of happy cats!";
+      const days = getNumDays();
+
+      if (days == 0) shareString += "1 day of happy cats!";
+      else shareString += days + 1 + " days of happy cats!";
 
       if (self.yearPlayed()) shareString += " 🎂";
 
-      if (localStorage.length + 1 >= 100)
+      if (days + 1 >= 100)
         shareString += "\n⭐ Feline Friend (100 days)";
 
-      if (localStorage.length + 1 >= 200)
+      if (days + 1 >= 200)
         shareString += "\n💖 Kitty Caretaker (200 days)";
 
-      if (localStorage.length + 1 >= 300)
+      if (days + 1 >= 300)
         shareString += "\n🎉 Purrfectionist (300 days)";
 
-      if (localStorage.length + 1 >= 400)
+      if (days + 1 >= 400)
         shareString += "\n😺 Pawsitively Purrsistent (400 days)";
 
-      if (localStorage.length + 1 >= 500)
+      if (days + 1 >= 500)
         shareString += "\n😸 Purrfect Pal (500 days)";
 
-      if (localStorage.length + 1 >= 600)
+      if (days + 1 >= 600)
         shareString += "\n🌟 Catty Companion (600 days)";
 
       /*
-      if (localStorage.length + 1 >= 700)
+      if (days + 1 >= 700)
         shareString += "\n (700 days)";
 
-      if (localStorage.length + 1 >= 800)
+      if (days + 1 >= 800)
         shareString += "\n (800 days)";
 
-      if (localStorage.length + 1 >= 900)
+      if (days + 1 >= 900)
         shareString += "\n (900 days)";
 
-      if (localStorage.length + 1 >= 1000)
+      if (days + 1 >= 1000)
         shareString += "\n (1000 days)!";
       */
 
       self.shareString(shareString);
-      localStorage.setItem(self.dateString(), shareString);
+
+      setDay(self.dateString(), shareString);
 
       console.log(localStorage);
       // update exportURI
@@ -319,7 +340,8 @@ function ViewModel() {
     //navigator.clipboard.writeText(localStorage.getItem(self.dateString()));//self.shareString());
 
     const element = document.createElement("textarea");
-    element.value = localStorage.getItem(self.dateString());
+    const days = localStorage.getObject("days");
+    element.value = days[self.dateString()];
     document.body.appendChild(element);
     element.select();
     document.execCommand("copy");
@@ -357,10 +379,25 @@ function ViewModel() {
   */
 }
 
+function migrateData() {
+  var currentVersion = localStorage.getItem("saveVersion") || "0";
+  // Migrate 0 => 1
+  if (currentVersion == "0") {
+    const days = {};
+    Object.keys(localStorage).forEach(function (key) {
+      days[key] = localStorage.getItem(key);
+    });
+    localStorage.clear();
+    localStorage.setObject("days", days);
+    localStorage.setItem("saveVersion", "1");
+  }
+}
+
 // hook up exporter
 function updateExportURI()
 {
-  var data = JSON.stringify(localStorage);
+  migrateData();
+  var data = JSON.stringify(localStorage.getItem("days"));
 
   const link = document.getElementById("exporter")
   if (link == null) return;
@@ -379,6 +416,7 @@ function _importData(data) {
   Object.entries(data).forEach(function([key, value]) {
     localStorage.setItem(key, JSON.stringify(value));
   });
+  migrateData();
 }
 
 function importData() {
@@ -407,34 +445,11 @@ function importData() {
   }
 
   reader.readAsText(file);
-
-  /*
-  if (file) {
-
-    reader.readAsText(file);
-
-    if (confirm("Warning: importing data will overwrite existing progress. Are you sure you want to import data?"))
-    {
-      let data = JSON.parse(reader.result);
-
-      console.log("DATA");
-      console.log(data);
-
-      localStorage.clear();
-
-      Object.entries(data).forEach(function ([key, value]) {
-        localStorage.setItem(key, JSON.stringify(value));
-      });
-    }
-    else
-    {
-      alert("Import cancelled.")
-    }
-  }
-    */
 }
 
 window.setTimeout(() => {
     ko.applyBindings(new ViewModel());
     document.getElementsByTagName("body")[0].classList.remove("loading");
 }, 500);
+
+migrateData();
