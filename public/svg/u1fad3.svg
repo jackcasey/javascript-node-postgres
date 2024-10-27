@@ -1,0 +1,52 @@
+<svg viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="SVGID_1_" cx="65.4501" cy="60.6531" gradientUnits="userSpaceOnUse" r="61.5528">
+      <stop offset="0" stop-color="#FFEACD"/>
+      <stop offset="0.4412" stop-color="#FFE9CB"/>
+      <stop offset="0.6002" stop-color="#FFE6C4"/>
+      <stop offset="0.7135" stop-color="#FFE1B9"/>
+      <stop offset="0.805" stop-color="#FFDAA8"/>
+      <stop offset="0.8828" stop-color="#FFD092"/>
+      <stop offset="0.9512" stop-color="#FFC577"/>
+      <stop offset="0.9605" stop-color="#FFC373"/>
+    </radialGradient>
+    <radialGradient id="SVGID_2_" cx="27.707974" cy="20.47664" gradientTransform="matrix(0.9581 0 0 0.9317 0 0)" gradientUnits="userSpaceOnUse" r="30.7577">
+      <stop offset="0" stop-color="#82614E"/>
+      <stop offset="0.2035" stop-color="#93725C"/>
+      <stop offset="0.7281" stop-color="#BC987B"/>
+      <stop offset="1" stop-color="#CBA787"/>
+    </radialGradient>
+    <radialGradient id="SVGID_3_" cx="63.3897" cy="54.2364" gradientUnits="userSpaceOnUse" r="24.6382">
+      <stop offset="0" stop-color="#82614E"/>
+      <stop offset="0.357" stop-color="#9C7A63"/>
+      <stop offset="0.8907" stop-color="#CBA787"/>
+    </radialGradient>
+    <radialGradient id="SVGID_4_" cx="66.152" cy="58.9773" gradientUnits="userSpaceOnUse" r="39.6006">
+      <stop offset="0" stop-color="#82614E"/>
+      <stop offset="0.2102" stop-color="#876652"/>
+      <stop offset="0.4699" stop-color="#96755E"/>
+      <stop offset="0.7543" stop-color="#AF8D71"/>
+      <stop offset="1" stop-color="#CBA787"/>
+    </radialGradient>
+    <radialGradient id="SVGID_5_" cx="82.5301" cy="77.4826" gradientUnits="userSpaceOnUse" r="33.4722">
+      <stop offset="0" stop-color="#82614E"/>
+      <stop offset="0.138" stop-color="#906F59"/>
+      <stop offset="0.4949" stop-color="#B08D72"/>
+      <stop offset="0.795" stop-color="#C4A081"/>
+      <stop offset="1" stop-color="#CBA787"/>
+    </radialGradient>
+    <radialGradient id="SVGID_6_" cx="100.5661" cy="93.2953" gradientUnits="userSpaceOnUse" r="24.4343">
+      <stop offset="0" stop-color="#82614E"/>
+      <stop offset="0.2035" stop-color="#93725C"/>
+      <stop offset="0.7281" stop-color="#BC987B"/>
+      <stop offset="1" stop-color="#CBA787"/>
+    </radialGradient>
+  </defs>
+  <path d="M97.76,43.74 C96.59,43.93 5.18,60.5 4.98,64.59 C4.79,68.68 5,77.75 6.15,80.57 C8.68,86.81 13.36,93.04 17.84,99.09 C22.32,105.14 27.39,112.54 32.65,115.66 C37.91,118.78 49.22,126.38 71.24,123.46 C93.26,120.54 111.78,101.63 115.09,95.78 C118.4,89.93 120.16,83.11 120.55,81.16 C120.94,79.21 123.47,66.15 124.06,63.23 C124.64,60.31 125.23,51.54 124.25,47.83 C123.29,44.13 97.76,43.74 97.76,43.74 Z" fill="#D69640"/>
+  <path d="M31.81,12.76 C24.33,19.07 18.58,27.52 15.33,31.79 C12.08,36.06 4.02,46.15 4.4,58.19 C4.78,70.23 6.7,75.86 9.19,80.52 C11.68,85.18 16.86,93.14 21.27,98.58 C25.68,104.02 28.85,107.54 38.33,112.36 C44.84,115.68 53.65,117.23 63.04,117.06 C71.88,116.9 80.02,115.43 85.39,112.91 C90.76,110.39 101.72,104.14 106.35,99.07 C110.5,94.52 112.88,91.95 116.44,85.82 C118.29,82.64 119.77,71.35 121.19,67.43 C125.54,55.37 124.95,44.49 121.98,38.36 C120.46,35.21 114.76,26.85 111.7,24.52 C108.64,22.19 104.86,18.34 101.22,15.62 C97.58,12.9 91.61,5.48 82.22,3.73 C72.83,1.98 65.74,4.22 63.82,4.6 C61.9,4.99 47.53,5.57 42.93,7.13 C38.33,8.69 34.11,10.82 31.81,12.76 Z" fill="url(#SVGID_1_)"/>
+  <path d="M25.78,54.66 C25.53,54.51 30.5,47.77 33.94,43.66 C37.38,39.55 49.97,27.31 53.91,24.15 C57.85,20.99 62.07,18.12 62.47,18.6 C62.86,19.08 58.63,24.53 52.24,31.03 C45.85,37.53 41.23,42.42 34.83,48.06 C30.44,51.94 26.28,54.95 25.78,54.66 Z" fill="url(#SVGID_2_)"/>
+  <path d="M52.27,46.14 C43.36,55.17 30.52,70.84 31.09,71.3 C32.29,72.26 43.2,63.65 57.25,49.02 C71.3,34.39 78.27,25.71 77.01,24.92 C75.75,24.13 60.73,37.57 52.27,46.14 Z" fill="url(#SVGID_3_)"/>
+  <path d="M63.22,57.23 C56.96,63.72 52.7,67.75 48.43,72.44 C41.26,80.33 37.26,85.46 37.95,86.72 C38.24,87.26 43.26,83.84 52.41,75.43 C56.6,71.58 61.98,65.97 67.76,60.33 C73.48,54.75 77.75,50.18 81.01,46.39 C87.62,38.72 89.77,34.62 89.24,34.39 C88.74,34.18 83.88,37.51 77.58,43.43 C72.89,47.85 66.77,53.55 63.22,57.23 Z" fill="url(#SVGID_4_)"/>
+  <path d="M72.6,68.46 C65.89,76.12 50.85,92.66 52.57,94.03 C54.28,95.4 73.36,75.41 78.73,69.58 C84.1,63.75 98.38,47.42 97.58,46.62 C96.78,45.82 81.52,58.3 72.6,68.46 Z" fill="url(#SVGID_5_)"/>
+  <path d="M84.33,78.38 C91.59,70.33 102.61,60.9 103.64,61.93 C104.67,62.96 94.81,74.47 88.9,81.01 C82.5,88.09 70.96,98.49 70.28,97.69 C69.23,96.46 78.05,85.35 84.33,78.38 Z" fill="url(#SVGID_6_)"/>
+</svg>

@@ -38,11 +38,11 @@ const startServer = async () => {
   });
 }
 
-app.get("/", async (req: Request, res: Response) => {
-  const db_response = await pool.query('SELECT now() as message');
-  const result = db_response.rows[0].message;
-  res.send("Express + TypeScript Server is great! " + result);
-});
+// app.get("/", async (req: Request, res: Response) => {
+//   const db_response = await pool.query('SELECT now() as message');
+//   const result = db_response.rows[0].message;
+//   res.send("Express + TypeScript Server is great! " + result);
+// });
 
 app.get("/generate_phrase", async (req: Request, res: Response) => {
   res.header("Content-Type", "application/json");
@@ -144,5 +144,7 @@ app.post("/add_days", async (req: Request, res: Response) => {
   res.send(get_user_payload(user));
 
 });
+
+app.use(express.static('public'))
 
 startServer();
