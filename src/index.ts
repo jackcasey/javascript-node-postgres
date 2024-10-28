@@ -31,13 +31,7 @@ const startServer = async () => {
   console.log("Setting up DB...");
   await setupDB();
   console.log("MikroORM starting...");
-  orm = await MikroORM.init({
-    dbName: process.env.PGDATABASE,
-    user: process.env.PGUSER,
-    host: process.env.PGHOST,
-    port: parseInt(process.env.PGPORT || "5432"),
-    password: process.env.PGPASSWORD
-  });
+  orm = await MikroORM.init();
 
   console.log("MikroORM done...");
   app.listen(port, () => {
