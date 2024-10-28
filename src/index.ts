@@ -46,7 +46,6 @@ const startServer = async () => {
 // });
 
 app.get("/generate_phrase", async (req: Request, res: Response) => {
-  await setTimeout(1000);
   res.header("Content-Type", "application/json");
   const mnemonic = await bip39.generateMnemonic(64);
   var phrase_hex = bip39.mnemonicToEntropy(mnemonic);
@@ -64,7 +63,6 @@ const get_user_payload = (user: User):string => {
 }
 
 app.get("/get_user", async (req: Request, res: Response) => {
-  await setTimeout(1000);
   res.header("Content-Type", "application/json");
   const em = orm.em.fork();
   const q_phrase = req.query.phrase?.toString();
@@ -87,7 +85,6 @@ app.get("/get_user", async (req: Request, res: Response) => {
 });
 
 app.post("/add_user", async (req: Request, res: Response) => {
-  await setTimeout(1000);
   res.header("Content-Type", "application/json");
   const em = orm.em.fork();
   const q_phrase = req.query.phrase?.toString();
