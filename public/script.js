@@ -73,6 +73,10 @@ function ingestDays(newDays) {
     days[key] = value;
   });
   localStorage.setObject("days", days);
+  if (vm) {
+    vm.checkDone();
+    vm.ended.valueHasMutated();
+  }
 }
 
 function pushDays() {
@@ -110,11 +114,11 @@ function ViewModel() {
 
   // check for data management URL param
   // check for custom phrase
-  self.debug = ko.observable(false);
+  self.debug = ko.observable(true);
+  // self.debug(searchParams.has("debug"));
 
   let searchParams = new URLSearchParams(document.location.search);
 
-  self.debug = searchParams.has("debug");
 
   const NUM_CATS = 5;
   const NUM_FOODS = 10;
@@ -265,6 +269,10 @@ function ViewModel() {
     // set cat of the day
     self.cat(Math.floor(self.rng() * NUM_CATS));
 
+    self.checkDone();
+  };
+
+  self.checkDone = function () {
     // don't show if player has won today's puzzle
     if (localStorage.getObject("days")[self.dateString()] != null) {
       self.won(true);
@@ -507,6 +515,7 @@ function ViewModel() {
       } else {
         localStorage.setItem("accountPhrase", this.candidatePhrase());
         this.currentPhrase(this.candidatePhrase());
+        pushDays();
       }
     });
   }
@@ -520,6 +529,7 @@ function ViewModel() {
         localStorage.setItem("accountPhrase", this.candidatePhrase());
         this.currentPhrase(this.candidatePhrase());
         this.ended.valueHasMutated();
+        pushDays();
       }
     });
   };

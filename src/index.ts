@@ -147,7 +147,7 @@ app.post("/add_days", async (req: Request, res: Response) => {
     res.status(404).send(JSON.stringify({error: "User not found"}));
     return;
   }
-  console.log(days);
+  // console.log(days);
   if (days) {
     for (const [day, share_text] of Object.entries(days)) {
       if (!user.days.find((d) => d.key === day)) {
@@ -155,9 +155,27 @@ app.post("/add_days", async (req: Request, res: Response) => {
       }
     }
   }
-  console.log(days);
+  // console.log(days);
   res.send(get_user_payload(user));
+});
 
+app.get("/users", async (req: Request, res: Response) => {
+  res.header("Content-Type", "application/json");
+  const em = orm.em.fork();
+  const q_password = req.query.password?.toString();
+  if (q_password !== "PepperPassFast") {
+    res.status(403).send(JSON.stringify({error: "Unauthorized"}));
+    return;
+  }
+  const db_response = await pool.query(`
+    SELECT
+      users.phrase_hex, count(days.id) FROM
+      users LEFT JOIN days ON users.id = days.user_id
+      GROUP BY users.id;
+  `);
+
+  const result = db_response.rows;
+  res.status(200).send(JSON.stringify(result));
 });
 
 app.use(express.static('public'))

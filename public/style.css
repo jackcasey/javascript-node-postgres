@@ -456,3 +456,13 @@ body.loading > * {
   padding: 8px;
   animation: nom 2s 1s infinite;
 }
+
+.phrase {
+  user-select: text;
+  border: 1px solid #eeeeee;
+  padding: 4px;
+}
+
+.phrase-input {
+  width: 100%;
+}

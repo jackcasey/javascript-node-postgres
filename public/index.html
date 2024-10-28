@@ -115,7 +115,7 @@
             <!-- ko if: connectingAccount() -->
                 <!-- ko if: !fetching() -->
                     <p>Enter your existing account phrase:</p>
-                    <p><input type="text" data-bind="textInput: candidatePhrase"></p>
+                    <p><input class="phrase-input" type="text" data-bind="textInput: candidatePhrase"></p>
                     <!-- ko if: error() -->
                         <p class="error" data-bind="text: error"></p>
                     <!-- /ko -->
