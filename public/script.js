@@ -14,8 +14,96 @@ function setDay(dateString, shareString) {
 }
 
 function getNumDays() {
-  return Object.keys(localStorage.getObject("days")).length;
+  var days = localStorage.getObject("days");
+  if (days == null) return 0;
+  return Object.keys(days).length || 0;
 }
+
+function requestCreateAccount(phrase, callback) {
+  var xhr = new XMLHttpRequest();
+  // add phrase query parameter
+  vm.fetching(true);
+  xhr.open("POST", "/add_user?phrase=" + phrase, true);
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState == 4) {
+      var data = JSON.parse(xhr.responseText);
+      vm.fetching(false);
+      callback(data);
+    }
+  };
+  xhr.send();
+
+}
+
+function requestNewAccountPhrase(callback) {
+  var xhr = new XMLHttpRequest();
+  vm.fetching(true);
+  xhr.open("GET", "/generate_phrase", true);
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState == 4) {
+      var data = JSON.parse(xhr.responseText);
+      vm.fetching(false);
+      callback(data.mnemonic);
+    }
+  };
+  xhr.send();
+}
+
+function requestConnectToAccount(phrase, callback) {
+  var xhr = new XMLHttpRequest();
+  // add phrase query parameter
+  vm.fetching(true);
+  xhr.open("GET", "/get_user?phrase=" + phrase, true);
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState == 4) {
+      var data = JSON.parse(xhr.responseText);
+      vm.fetching(false);
+      if (data.days) {
+        ingestDays(data.days);
+      }
+      callback(data);
+    }
+  };
+  xhr.send();
+}
+
+function ingestDays(newDays) {
+  const days = localStorage.getObject("days");
+  Object.entries(newDays).forEach(function([key, value]) {
+    days[key] = value;
+  });
+  localStorage.setObject("days", days);
+}
+
+function pushDays() {
+  const days = localStorage.getObject("days");
+  var xhr = new XMLHttpRequest();
+  // add phrase query parameter
+  if (vm)
+    vm.fetching(true);
+  var phrase = localStorage.getItem("accountPhrase");
+  if (phrase == null) {
+    return;
+  }
+  xhr.open("POST", "/add_days?phrase=" + phrase, true);
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState == 4) {
+      var data = JSON.parse(xhr.responseText);
+      if (vm)
+        vm.fetching(false);
+      if (data.days) {
+        ingestDays(data.days);
+      }
+    }
+  };
+  const body = JSON.stringify(days);
+  console.log("POSTING: body: \n" + body);
+  xhr.setRequestHeader("Content-Type", "application/json");
+  xhr.send(body);
+}
+
+
+var vm;
 
 function ViewModel() {
   var self = this;
@@ -53,6 +141,15 @@ function ViewModel() {
 
   self.timeStart = ko.observable(-1);
   self.timeEnd = ko.observable(-1);
+
+  self.accountSetup = ko.observable(false);
+  self.candidatePhrase = ko.observable(null);
+  self.currentPhrase = ko.observable(localStorage.getItem("accountPhrase") || null);
+  self.synced = ko.computed(() => self.currentPhrase() != null);
+  self.connectingAccount = ko.observable(false);
+  self.creatingAccount = ko.observable(false);
+  self.error = ko.observable("");
+  self.fetching = ko.observable(false);
 
   self.timeString = ko.computed({
     read: function () {
@@ -125,7 +222,8 @@ function ViewModel() {
     if (self.ended())
       // this just forces ko to compute numDays by adding an observable
       return getNumDays();
-  }, self);
+    else return getNumDays();
+  }, self).extend({notify: 'always'});
 
   // Set up a new level
   self.restart = function () {
@@ -321,6 +419,7 @@ function ViewModel() {
       self.shareString(shareString);
 
       setDay(self.dateString(), shareString);
+      this.ended.valueHasMutated();
 
       console.log(localStorage);
       // update exportURI
@@ -377,6 +476,60 @@ function ViewModel() {
         }
     }, 500);
   */
+
+  self.loadAccountSetup = function() {
+    this.candidatePhrase(null);
+    this.accountSetup(!this.accountSetup());
+  };
+
+  self.createAccount = function() {
+    console.log("createAccount");
+    this.creatingAccount(true);
+    this.candidatePhrase(null);
+    requestNewAccountPhrase((mnemonic) => {
+      this.candidatePhrase(mnemonic);
+    });
+  };
+
+  self.connectToAccount = function() {
+    this.connectingAccount(true);
+  };
+
+  self.newCandidatePhrase = function() {
+    this.createAccount();
+  }
+
+  self.acceptPhrase = function() {
+    this.error(null);
+    requestCreateAccount(this.candidatePhrase(), (data) => {
+      if (data.error) {
+        this.error(data.error);
+      } else {
+        localStorage.setItem("accountPhrase", this.candidatePhrase());
+        this.currentPhrase(this.candidatePhrase());
+      }
+    });
+  }
+
+  self.tryConnect = function() {
+    this.error(null);
+    requestConnectToAccount(this.candidatePhrase(), (data) => {
+      if (data.error) {
+        this.error(data.error);
+      } else {
+        localStorage.setItem("accountPhrase", this.candidatePhrase());
+        this.currentPhrase(this.candidatePhrase());
+        this.ended.valueHasMutated();
+      }
+    });
+  };
+
+}
+
+function syncData() {
+  if (localStorage.getItem("accountPhrase") != null) {
+    pushDays();
+  }
 }
 
 function migrateData() {
@@ -419,6 +572,10 @@ function _importData(data) {
   migrateData();
 }
 
+function accountSetup() {
+  vm.loadAccountSetup();
+}
+
 function importData() {
   const [file] = document.querySelector("input[type=file]").files;
   const reader = new FileReader();
@@ -447,9 +604,23 @@ function importData() {
   reader.readAsText(file);
 }
 
+function clearLocalData() {
+  localStorage.clear();
+  document.location.reload();
+}
+
+function addDummyDay() {
+  var days = localStorage.getObject("days");
+  days["test: " + new Date().getTime()] = "Dummy day!";
+  localStorage.setObject("days", days);
+  vm.ended.valueHasMutated();
+}
+
 window.setTimeout(() => {
-    ko.applyBindings(new ViewModel());
+    vm = new ViewModel();
+    ko.applyBindings(vm);
     document.getElementsByTagName("body")[0].classList.remove("loading");
 }, 500);
 
 migrateData();
+syncData();

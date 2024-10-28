@@ -62,15 +62,74 @@
 <body class="loading">
 
     <!-- ko if: debug -->
-    <p class="small" style="margin-top: -32px">
+    <p class="small" style="height: 48px; margin-top: -48px; margin-bottom:0">
         <a id="exporter">Download Data</a>
         |
         <input type="file" id="import-data" onchange="importData()" style="display:none"/>
         <label for="import-data"><a>Import Data</a></label>
+        |
+        <span onclick="accountSetup()">Account Sync</span>
+        |
+        <span onclick="clearLocalData()">Clear All Data</span>
+        |
+        <span onclick="addDummyDay()">Add Test Day</span>
     </p>
     <!-- /ko -->
 
     <div class="loader"></div>
+
+    <!-- ko if: accountSetup() -->
+    <div class="modal" data-bind="">
+        <div class="logo emoji" data-bind="class: yearPlayed() ? 'cake' : ''"></div><!-- data-bind="click: recover"></div> -->
+        <div>
+            <h1>Purrdle</h1><!--<span>🐣 Holiday Edition 🐣</span>-->
+        </div>
+        <h1>Days: <span data-bind="text: numDays()"></span> </h1>
+        <!-- ko if: synced() -->
+            <p>Currently Synced with phrase:</p>
+            <p class="phrase" data-bind="text: currentPhrase"></p>
+        <!-- /ko -->
+        <!-- ko if: !synced() -->
+            <!-- ko if: !creatingAccount() && !connectingAccount() -->
+                <p>Your progress is not currently synced to the server.</p>
+                <p>Sync your progress with the server?</p>
+                <button data-bind="click: createAccount">Create Account</button>
+                <button data-bind="click: connectToAccount">Use Existing Account</button>
+            <!-- /ko -->
+            <!-- ko if: creatingAccount() -->
+                <!-- ko if: candidatePhrase() && !fetching() -->
+                    <p>Your account phrase is:</p>
+                    <p class="phrase" data-bind="text: candidatePhrase"></p>
+                    <p>Write this down, it's all you need to reconnect to your account from any device!</p>
+                    <p>If you don't like this phrase you can try another.</p>
+                    <button data-bind="click: newCandidatePhrase">Try another</button>
+                    <button data-bind="click: acceptPhrase">Ok</button>
+                <!-- /ko -->
+                <!-- ko if: !candidatePhrase() && fetching() -->
+                    <p>Fetching account phrase...</p>
+                <!-- /ko -->
+                <!-- ko if: candidatePhrase() && fetching() -->
+                    <p>Creating Account...</p>
+                <!-- /ko -->
+            <!-- /ko -->
+            <!-- ko if: connectingAccount() -->
+                <!-- ko if: !fetching() -->
+                    <p>Enter your existing account phrase:</p>
+                    <p><input type="text" data-bind="textInput: candidatePhrase"></p>
+                    <!-- ko if: error() -->
+                        <p class="error" data-bind="text: error"></p>
+                    <!-- /ko -->
+                    <button data-bind="click: tryConnect">Ok</button>
+                <!-- /ko -->
+                <!-- ko if: fetching() -->
+                    <p>Connecting to account...</p>
+                <!-- /ko -->
+            <!-- /ko -->
+        <!-- /ko -->
+    </div>
+    <!-- /ko -->
+
+    <!-- ko ifnot: accountSetup() -->
 
     <div class="modal" data-bind="visible: !started()">
         <div class="logo emoji" data-bind="class: yearPlayed() ? 'cake' : ''"></div><!-- data-bind="click: recover"></div> -->
@@ -134,6 +193,7 @@
             </div>
         <!-- /ko -->
     </div>
+    <!-- /ko -->
 
     <main>
         <header>

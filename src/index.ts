@@ -7,6 +7,7 @@ import { Day } from "./entities/day.entity";
 import pg from 'pg'
 import setupDB from "./db/db_setup";
 import * as bip39 from 'bip39';
+import { setTimeout } from "timers/promises";
 
 var orm:MikroORM;
 dotenv.config();
@@ -45,6 +46,7 @@ const startServer = async () => {
 // });
 
 app.get("/generate_phrase", async (req: Request, res: Response) => {
+  await setTimeout(1000);
   res.header("Content-Type", "application/json");
   const mnemonic = await bip39.generateMnemonic(64);
   var phrase_hex = bip39.mnemonicToEntropy(mnemonic);
@@ -52,10 +54,17 @@ app.get("/generate_phrase", async (req: Request, res: Response) => {
 });
 
 const get_user_payload = (user: User):string => {
-  return JSON.stringify({id: user.id, days: user.days.map((day) => {return {key: day.key, share_text: day.share_text}})});
+  const userDays = user.days.map((day) => {return {key: day.key, share_text: day.share_text}});
+  const days: {[key: string]: string} = {};
+  for (let day of userDays) {
+    days[day.key] = day.share_text;
+  }
+
+  return JSON.stringify({id: user.id, days});
 }
 
 app.get("/get_user", async (req: Request, res: Response) => {
+  await setTimeout(1000);
   res.header("Content-Type", "application/json");
   const em = orm.em.fork();
   const q_phrase = req.query.phrase?.toString();
@@ -78,6 +87,7 @@ app.get("/get_user", async (req: Request, res: Response) => {
 });
 
 app.post("/add_user", async (req: Request, res: Response) => {
+  await setTimeout(1000);
   res.header("Content-Type", "application/json");
   const em = orm.em.fork();
   const q_phrase = req.query.phrase?.toString();
@@ -120,7 +130,9 @@ app.post("/add_days", async (req: Request, res: Response) => {
   res.header("Content-Type", "application/json");
   const em = orm.em.fork();
   const q_phrase = req.query.phrase?.toString();
-  const days = req.body.days;
+  console.log("Body:");
+  console.log(req.body);
+  const days = req.body;
   if (!q_phrase) {
     res.status(400).send(JSON.stringify({error: "No phrase provided"}));
     return;
@@ -135,9 +147,12 @@ app.post("/add_days", async (req: Request, res: Response) => {
     res.status(404).send(JSON.stringify({error: "User not found"}));
     return;
   }
-  for (let day of days) {
-    if (!user.days.find((d) => d.key === day.key)) {
-      await add_day(user, day.key, day.share_text);
+  console.log(days);
+  if (days) {
+    for (const [day, share_text] of Object.entries(days)) {
+      if (!user.days.find((d) => d.key === day)) {
+        await add_day(user, day, share_text as string);
+      }
     }
   }
   console.log(days);
