@@ -424,6 +424,8 @@ function ViewModel() {
         shareString += "\n (1000 days)!";
       */
 
+      shareString += "\n" + getMedals();
+
       self.shareString(shareString);
 
       setDay(self.dateString(), shareString);
@@ -584,6 +586,42 @@ function _importData(data) {
 
 function accountSetup() {
   vm.loadAccountSetup();
+}
+
+function getMedals() {
+  const days = localStorage.getObject("days");
+
+  var easter = isEmojiInDays(days, "🐰") || playedInTimePeriod("2024-04-04", "2024-04-05");
+  var halloween = isEmojiInDays(days, "🙀") || playedInTimePeriod("2024-10-21", "2024-11-01");
+
+  medals = [];
+  if (easter) medals.push("🐰");
+  if (halloween) medals.push("🎃");
+  return medals.join(",");
+}
+
+function playedInTimePeriod(start, end) {
+  start = new Date(start);
+  end = new Date(end);
+  const days = localStorage.getObject("days");
+  var count = 0;
+  Object.keys(days).forEach((key) => {
+    var date = new Date(key);
+    if (date >= start && date <= end) {
+      count++;
+    }
+  });
+  return count > 0;
+}
+
+function isEmojiInDays(days, emoji) {
+  var found = false;
+  Object.keys(days).forEach((key) => {
+    if (days[key].includes(emoji)) {
+      found = true;
+    }
+  });
+  return found;
 }
 
 function importData() {
