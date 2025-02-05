@@ -424,7 +424,7 @@ function ViewModel() {
         shareString += "\n (1000 days)!";
       */
 
-      shareString += "\n" + getMedals();
+      // shareString += "\n" + getMedals();
 
       self.shareString(shareString);
 
