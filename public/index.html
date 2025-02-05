@@ -35,6 +35,34 @@
     <link rel="preload" href="svg/u1f95e.svg" as="image" type="image/svg+xml">
     <link rel="preload" href="svg/u1f638.svg" as="image" type="image/svg+xml">
 
+
+    <!-- lunar new year -->
+    <link rel="preload" href="svg/u1f3ee.svg" as="image" type="image/svg+xml">
+    <link rel="preload" href="svg/u1f40d.svg" as="image" type="image/svg+xml">
+    <link rel="preload" href="svg/u1f311.svg" as="image" type="image/svg+xml">
+    <link rel="preload" href="svg/u1f95f.svg" as="image" type="image/svg+xml">
+    <link rel="preload" href="svg/u1f34a.svg" as="image" type="image/svg+xml">
+    <link rel="preload" href="svg/u1f343.svg" as="image" type="image/svg+xml">
+    <link rel="preload" href="svg/u1f9cb.svg" as="image" type="image/svg+xml">
+    <link rel="preload" href="svg/u1f9e7.svg" as="image" type="image/svg+xml">
+    <link rel="preload" href="svg/u1f9e8.svg" as="image" type="image/svg+xml">
+    <link rel="preload" href="svg/u1f534.svg" as="image" type="image/svg+xml">
+
+    <!-- halloween -->
+    <!--
+    <link rel="preload" href="svg/u1f640.svg" as="image" type="image/svg+xml">
+    <link rel="preload" href="svg/u1f577.svg" as="image" type="image/svg+xml">
+    <link rel="preload" href="svg/u1f383.svg" as="image" type="image/svg+xml">
+    <link rel="preload" href="svg/u1f987.svg" as="image" type="image/svg+xml">
+    <link rel="preload" href="svg/u1fab1.svg" as="image" type="image/svg+xml">
+    <link rel="preload" href="svg/u1f578.svg" as="image" type="image/svg+xml">
+    <link rel="preload" href="svg/u1f36b.svg" as="image" type="image/svg+xml">
+    <link rel="preload" href="svg/u1f36c.svg" as="image" type="image/svg+xml">
+    <link rel="preload" href="svg/u1f36d.svg" as="image" type="image/svg+xml">
+    <link rel="preload" href="svg/u1f47b.svg" as="image" type="image/svg+xml">
+    <link rel="preload" href="svg/u1f480.svg" as="image" type="image/svg+xml">
+    -->
+
     <!-- ios support -->
     <link rel="apple-touch-icon" href="images/icons/icon-72x72.png" />
     <link rel="apple-touch-icon" href="images/icons/icon-96x96.png" />
@@ -56,7 +84,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"
         type="text/javascript"></script>
 
-    <link rel="stylesheet" href="style.css?v=20241001">
+    <link rel="stylesheet" href="style.css?v=20250129">
 </head>
 
 <body class="loading">
@@ -134,7 +162,8 @@
     <div class="modal" data-bind="visible: !started()">
         <div class="logo emoji" data-bind="class: yearPlayed() ? 'cake' : ''"></div><!-- data-bind="click: recover"></div> -->
         <div>
-            <h1>Purrdle</h1><!--<span>🐣 Holiday Edition 🐣</span>-->
+            <h1>Purrdle</h1>
+            <span data-bind="visible: holiday, text: holidayText"></span>
             <p data-bind="text: dateString()"></p>
         </div>
         <!--<p>Guess what each cat wants!</p>-->
@@ -148,10 +177,10 @@
             <!-- /ko -->
             <!-- ko ifnot: yearPlayed -->
                 <ul style="text-align: left; margin: 8px">
-                    <li>Find each cat's favorite food</li>
-                    <li>Cats look towards their favorite food</li>
-                    <li>Cats hide if their favorite item isn't present</li>
-                    <li>More than one cat can have the same favorite food</li>
+                    <li>Find each cat's favorite <span data-bind="text: itemCategory"></span></li>
+                    <li>Cats look towards their favorite <span data-bind="text: itemCategory"></span></li>
+                    <li>Cats hide if their favorite <span data-bind="text: itemCategory"></span> isn't present</li>
+                    <li>More than one cat can have the same favorite <span data-bind="text: itemCategory"></span></li>
                 </ul>
             <!-- /ko -->
             <button data-bind="click: start, clickBubble: false">Play</button>
@@ -165,7 +194,8 @@
 
     <div class="modal" data-bind="visible: ended()">
         <div class="logo emoji" data-bind="class: 'cat_' + $root.cat()"></div>
-        <h1>Purrdle</h1><!--<span>🐣 Holiday Edition 🐣</span>-->
+        <h1>Purrdle</h1>
+        <span data-bind="visible: holiday, text: holidayText"></span>
         <div>
             <p data-bind="text: dateString()"></p>
         </div>
@@ -198,7 +228,8 @@
     <main>
         <header>
             <h1 class="help" data-bind="click: help, clickBubble: false">?</h1>
-            <h1 class="title">Purrdle</h1><!--<span>🐣 Holiday Edition 🐣</span>-->
+            <h1 class="title">Purrdle</h1>
+            <span data-bind="visible: holiday, text: holidayText"></span>
         </header>
 
         <div id="guesses" data-bind="foreach: guesses">
@@ -245,5 +276,5 @@
         </footer>
     </main>
 </body>
-<script src="script.js?v=20241001" type="text/javascript"></script>
+<script src="script.js?v=20250129" type="text/javascript"></script>
 </html>

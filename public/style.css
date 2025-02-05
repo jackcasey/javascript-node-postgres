@@ -26,6 +26,20 @@
   }
 }
 
+@keyframes yawn {
+  0%, 74%, 100% {}
+  75%, 99% {
+    background: url("svg/u1f638.svg") no-repeat center center;
+  }
+}
+
+@keyframes weary {
+  0%, 74%, 100% {}
+  75%, 99% {
+    background: url("svg/u1f640.svg") no-repeat center center;
+  }
+}
+
 @keyframes nom {
   0% {
     transform: rotate(0deg);
@@ -88,10 +102,68 @@ main {
   margin-top: 48px;
   height: 160px;
   background-image: url("svg/u1f431.svg");
+  animation: nom 2s infinite, yawn 3s infinite;
+  animation-timing-function: ease, steps(1);
+  filter: drop-shadow(0px 8px 4px rgba(0, 0, 0, 0.2));
+}
+
+/* halloween Main Icon*/
+/*
+.logo {
+  margin-top: 48px;
+  height: 160px;
+  background-image: url("svg/u1f431.svg");
+  animation: nom 2s infinite, weary 3s infinite;
+  animation-timing-function: ease, steps(1);
+  filter: drop-shadow(0px 8px 4px rgba(0, 0, 0, 0.2));
+}
+*/
+
+/* xmas Main Icon*/
+/*
+.logo {
+  margin-top: 48px;
+  height: 160px;
+  background-image: url("svg/u1f431.svg");
   animation: nom 2s infinite, grin 3s infinite;
   animation-timing-function: ease, steps(1);
   filter: drop-shadow(0px 8px 4px rgba(0, 0, 0, 0.2));
 }
+.logo:after {
+  position: absolute;
+  background-image: url("svg/u1f381.svg");
+  width:60px;
+  height: 60px;
+  content: " ";
+  font-size: 24px;
+  transform: translate(-30px, 0px);
+  left: 50%;
+  top: -5px;
+}
+*/
+
+/* lunar Main Icon*/
+
+.logo {
+  margin-top: 48px;
+  height: 160px;
+  background-image: url("svg/u1f431.svg");
+  animation: nom 2s infinite, grin 3s infinite;
+  animation-timing-function: ease, steps(1);
+  filter: drop-shadow(0px 8px 4px rgba(0, 0, 0, 0.2));
+}
+.logo:after {
+  position: absolute;
+  background-image: url("svg/u1f9cb.svg");
+  width:60px;
+  height: 60px;
+  content: " ";
+  font-size: 24px;
+  transform: translate(-40px, 120px);
+  left: 50%;
+  top: -5px;
+}
+
 
 #guesses {
   padding: 8px;
@@ -193,6 +265,9 @@ main {
   padding: 2px;
   border-radius: 4px;
   font-size: small;
+  z-index: 100;
+  position: absolute;
+  transform: translate(-50%,0);
 }
 
 .logo.cat_0:before {
@@ -246,37 +321,61 @@ main {
   z-index: 1;
 }
 
-.food_0 {
-  background-image: url("svg/u1f349.svg")
-}
-.food_1 {
-  background-image: url("svg/u1f370.svg")
-}
-.food_2 {
-  background-image: url("svg/u1f369.svg")
-}
-.food_3 {
-  background-image: url("svg/u1f365.svg")
-}
-.food_4 {
-  background-image: url("svg/u1f364.svg")
-}
-.food_5 {
-  background-image: url("svg/u1f363.svg")
-}
-.food_6 {
-  background-image: url("svg/u1f359.svg")
-}
-.food_7 {
-  background-image: url("svg/u1f96a.svg")
-}
-.food_8 {
-  background-image: url("svg/u1f355.svg")
-}
-.food_9 {
-  background-image: url("svg/u1f95e.svg")
-}
+/* Standard */
+/*
+.food_0 { background-image: url("svg/u1f349.svg") }
+.food_1 { background-image: url("svg/u1f370.svg") }
+.food_2 { background-image: url("svg/u1f369.svg") }
+.food_3 { background-image: url("svg/u1f365.svg") }
+.food_4 { background-image: url("svg/u1f364.svg") }
+.food_5 { background-image: url("svg/u1f363.svg") }
+.food_6 { background-image: url("svg/u1f359.svg") }
+.food_7 { background-image: url("svg/u1f96a.svg") }
+.food_8 { background-image: url("svg/u1f355.svg") }
+.food_9 { background-image: url("svg/u1f95e.svg") }
+*/
 
+/* Halloween */
+/*
+.food_0 { background-image: url("svg/u1f577.svg") }
+.food_1 { background-image: url("svg/u1f383.svg") }
+.food_2 { background-image: url("svg/u1f987.svg") }
+.food_3 { background-image: url("svg/u1fab1.svg") }
+.food_4 { background-image: url("svg/u1f578.svg") }
+.food_5 { background-image: url("svg/u1f36b.svg") }
+.food_6 { background-image: url("svg/u1f36c.svg") }
+.food_7 { background-image: url("svg/u1f36d.svg") }
+.food_8 { background-image: url("svg/u1f47b.svg") }
+.food_9 { background-image: url("svg/u1f480.svg") }
+*/
+
+/* Lunar New Year */
+
+.food_0 { background-image: url("svg/u1f3ee.svg") }
+.food_1 { background-image: url("svg/u1f40d.svg") }
+.food_2 { background-image: url("svg/u1f311.svg") }
+.food_3 { background-image: url("svg/u1f95f.svg") }
+.food_4 { background-image: url("svg/u1f34a.svg") }
+.food_5 { background-image: url("svg/u1f343.svg") }
+.food_6 { background-image: url("svg/u1f9cb.svg") }
+.food_7 { background-image: url("svg/u1f9e7.svg") }
+.food_8 { background-image: url("svg/u1f9e8.svg") }
+.food_9 { background-image: url("svg/u1f534.svg") }
+
+
+/* Xmas */
+/*
+.food_0 { background-image: url("svg/u1f357.svg") }
+.food_1 { background-image: url("svg/u1f36c.svg") }
+.food_2 { background-image: url("svg/u1f389.svg") }
+.food_3 { background-image: url("svg/u1f95b.svg") }
+.food_4 { background-image: url("svg/u1f342.svg") }
+.food_5 { background-image: url("svg/u1f9f6.svg") }
+.food_6 { background-image: url("svg/u1f36a.svg") }
+.food_7 { background-image: url("svg/u1f9f8.svg") }
+.food_8 { background-image: url("svg/u1f36b.svg") }
+.food_9 { background-image: url("svg/u1f381.svg") }
+*/
 
 .guess>.cell>.food.unchecked {
   height: 64px;

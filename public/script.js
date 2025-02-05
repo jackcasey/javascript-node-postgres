@@ -119,16 +119,11 @@ function ViewModel() {
 
   let searchParams = new URLSearchParams(document.location.search);
 
+  self.debug = searchParams.has("debug");
 
   const NUM_CATS = 5;
   const NUM_FOODS = 10;
 
-  // Holiday seasons!
-  //const FOODS = [ "🍉", "🍰", "🍩", "🍥", "🍤", "🍣", "🍙", "🥪", "🍕", "🥞" ];
-  //const FOODS = ["🍗", "🍬", "🎉", "🥛", "🍂", "🧶", "🍪", "🧸", "🍫", "🎁"];
-  //const FOODS = ["🍫", "🍬", "🎉", "🥚", "🌱", "🥕", "🎀", "🔔", "🌼", "🎁"];
-
-  const CATS = ["Titan", "Apollo", "Oliver", "Donna", "Luna"];
   const FOODS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
   const BIRTHDAY_COUNT = 365;
@@ -154,6 +149,32 @@ function ViewModel() {
   self.creatingAccount = ko.observable(false);
   self.error = ko.observable("");
   self.fetching = ko.observable(false);
+
+  self.holiday = true;
+  self.holidayText = "";
+  self.itemCategory = "food";
+
+  self.nearbyGuessEmoji = "😾";
+  self.incorrectGuessEmoji = "🐾";
+  self.correctGuessEmoji = "😻";
+
+  /* XMAS */
+  // self.holiday = true;
+  // self.correctGuessEmoji = "😸";
+  // self.itemCategory = "item";
+  // self.holidayText = "🔔 Holiday Edition 🔔";
+
+  /* HALLOWEEN */
+  // self.holiday = true;
+  // self.correctGuessEmoji = "🙀";
+  // self.itemCategory = "item";
+  // self.holidayText = "🎃 Holiday Edition 🎃";
+
+  /* LUNAR NEW YEAR */
+  self.holiday = true;
+  self.incorrectGuessEmoji = "🧧";
+  self.itemCategory = "item";
+  self.holidayText = "🧧 Happy Lunar New Year! 🧧";
 
   self.timeString = ko.computed({
     read: function () {
@@ -329,7 +350,8 @@ function ViewModel() {
 
       if (target == guessItem.sample()) {
         guessItem.status("correct");
-        self.guessesString += "😻";
+
+        self.guessesString += self.correctGuessEmoji;
 
         numCorrect++;
       } else {
@@ -346,7 +368,7 @@ function ViewModel() {
             if (d < max_d) {
               max_d = d;
 
-              self.guessesString += "😾";
+              self.guessesString += self.nearbyGuessEmoji;
 
               if (j < i) {
                 guessItem.status("left");
@@ -360,7 +382,7 @@ function ViewModel() {
         }
 
         if (guessItem.status() == "incorrect") {
-          self.guessesString += "🐾";
+          self.guessesString += self.incorrectGuessEmoji;
         }
       }
     }
