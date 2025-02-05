@@ -8,6 +8,7 @@ import pg from 'pg'
 import setupDB from "./db/db_setup";
 import * as bip39 from 'bip39';
 import { setTimeout } from "timers/promises";
+import config from "./mikro-orm.config";
 
 var orm:MikroORM;
 dotenv.config();
@@ -31,7 +32,7 @@ const startServer = async () => {
   console.log("Setting up DB...");
   await setupDB();
   console.log("MikroORM starting...");
-  orm = await MikroORM.init();
+  orm = await MikroORM.init(config);
 
   console.log("MikroORM done...");
   app.listen(port, () => {
