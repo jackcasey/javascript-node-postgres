@@ -119,7 +119,7 @@ function ViewModel() {
 
   let searchParams = new URLSearchParams(document.location.search);
 
-  self.debug = searchParams.has("debug");
+  //self.debug = searchParams.has("debug");
 
   const NUM_CATS = 5;
   const NUM_FOODS = 10;
