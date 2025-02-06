@@ -35,7 +35,6 @@
     <link rel="preload" href="svg/u1f95e.svg" as="image" type="image/svg+xml">
     <link rel="preload" href="svg/u1f638.svg" as="image" type="image/svg+xml">
 
-
     <!-- lunar new year -->
     <link rel="preload" href="svg/u1f3ee.svg" as="image" type="image/svg+xml">
     <link rel="preload" href="svg/u1f40d.svg" as="image" type="image/svg+xml">
@@ -84,17 +83,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"
         type="text/javascript"></script>
 
-    <link rel="stylesheet" href="style.css?v=20250129">
+    <link rel="stylesheet" href="style.css?v=20250206">
 </head>
 
 <body class="loading">
 
     <!-- ko if: debug -->
     <p class="small" style="height: 48px; margin-top: -48px; margin-bottom:0">
-        <a id="exporter">Download Data</a>
+        <a onclick="copyData()">Copy Data</a>
         |
-        <input type="file" id="import-data" onchange="importData()" style="display:none"/>
-        <label for="import-data"><a>Import Data</a></label>
+        <a onclick="pasteData()">Paste Data</a>
         |
         <span onclick="accountSetup()">Account Sync</span>
         |
@@ -276,5 +274,5 @@
         </footer>
     </main>
 </body>
-<script src="script.js?v=20250129" type="text/javascript"></script>
+<script src="script.js?v=20250206" type="text/javascript"></script>
 </html>

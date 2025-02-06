@@ -143,7 +143,7 @@ main {
 */
 
 /* lunar Main Icon*/
-
+/*
 .logo {
   margin-top: 48px;
   height: 160px;
@@ -163,6 +163,7 @@ main {
   left: 50%;
   top: -5px;
 }
+*/
 
 
 #guesses {
@@ -322,7 +323,6 @@ main {
 }
 
 /* Standard */
-/*
 .food_0 { background-image: url("svg/u1f349.svg") }
 .food_1 { background-image: url("svg/u1f370.svg") }
 .food_2 { background-image: url("svg/u1f369.svg") }
@@ -333,7 +333,6 @@ main {
 .food_7 { background-image: url("svg/u1f96a.svg") }
 .food_8 { background-image: url("svg/u1f355.svg") }
 .food_9 { background-image: url("svg/u1f95e.svg") }
-*/
 
 /* Halloween */
 /*
@@ -350,7 +349,7 @@ main {
 */
 
 /* Lunar New Year */
-
+/*
 .food_0 { background-image: url("svg/u1f3ee.svg") }
 .food_1 { background-image: url("svg/u1f40d.svg") }
 .food_2 { background-image: url("svg/u1f311.svg") }
@@ -361,7 +360,7 @@ main {
 .food_7 { background-image: url("svg/u1f9e7.svg") }
 .food_8 { background-image: url("svg/u1f9e8.svg") }
 .food_9 { background-image: url("svg/u1f534.svg") }
-
+*/
 
 /* Xmas */
 /*

@@ -150,7 +150,7 @@ function ViewModel() {
   self.error = ko.observable("");
   self.fetching = ko.observable(false);
 
-  self.holiday = true;
+  self.holiday = false;
   self.holidayText = "";
   self.itemCategory = "food";
 
@@ -171,10 +171,10 @@ function ViewModel() {
   // self.holidayText = "🎃 Holiday Edition 🎃";
 
   /* LUNAR NEW YEAR */
-  self.holiday = true;
-  self.incorrectGuessEmoji = "🧧";
-  self.itemCategory = "item";
-  self.holidayText = "🧧 Happy Lunar New Year! 🧧";
+  // self.holiday = true;
+  // self.incorrectGuessEmoji = "🧧";
+  // self.itemCategory = "item";
+  // self.holidayText = "🧧 Happy Lunar New Year! 🧧";
 
   self.timeString = ko.computed({
     read: function () {
@@ -595,13 +595,38 @@ function updateExportURI()
 
 updateExportURI();
 
+function pasteData() {
+  if (confirm("Warning: importing data will overwrite existing progress. Are you sure you want to import data?"))
+  {
+    var data = prompt("Paste data here:");
+    if (data != null) {
+      localStorage.clear();
+      _importData(JSON.parse(data));
+      alert("Data imported. Returning to Purrdle.");
+      window.location = window.location + "";
+    }
+  }
+}
+
+function copyData() {
+  migrateData();
+  var data = JSON.stringify(localStorage.getItem("days"));
+  const element = document.createElement("textarea");
+  element.value = data;
+  document.body.appendChild(element);
+  element.select();
+  document.execCommand("copy");
+  document.body.removeChild(element);
+  alert("Data copied to clipboard!");
+}
+
 // hook up importer
 function _importData(data) {
   console.log("_importData");
   console.log(data);
 
   Object.entries(data).forEach(function([key, value]) {
-    localStorage.setItem(key, JSON.stringify(value));
+    localStorage.setItem(key, value);
   });
   migrateData();
 }
@@ -675,8 +700,11 @@ function importData() {
 }
 
 function clearLocalData() {
-  localStorage.clear();
-  document.location.reload();
+  if (confirm("Warning: this will clear all local data. Are you sure you want to clear all data?"))
+  {
+    localStorage.clear();
+    document.location.reload();
+  }
 }
 
 function addDummyDay() {
